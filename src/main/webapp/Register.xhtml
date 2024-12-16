@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+    <title>Erregistroa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn:active {
+            background-color: #004085;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Erregistratu</h1>
+    <div class="form-container">
+        <h:form>
+            <h:outputLabel for="username" value="Erabiltzailea" />
+            <h:inputText id="username" value="#{registerBean.username}" required="true" label="Erabiltzailea" styleClass="input-field" />
+
+            <h:outputLabel for="email" value="Email" />
+            <h:inputText id="email" value="#{registerBean.email}" required="true" label="Email" styleClass="input-field" />
+
+            <h:outputLabel for="password" value="Pasahitza" />
+            <h:inputSecret id="password" value="#{registerBean.password}" required="true" label="Pasahitza" styleClass="input-field" />
+
+            <div class="checkbox-group">
+                <h:selectBooleanCheckbox id="gidaria" value="#{registerBean.gidaria}">
+                    <f:ajax event="click" render="bidaiaria" />
+                </h:selectBooleanCheckbox>
+                <h:outputLabel for="gidaria" value="Gidaria" />
+                
+                <h:selectBooleanCheckbox id="bidaiaria" value="#{registerBean.bidaiaria}">
+                    <f:ajax event="click" render="gidaria" />
+                </h:selectBooleanCheckbox>
+                <h:outputLabel for="bidaiaria" value="Bidaiaria" />
+            </div>
+
+            <h:commandButton value="Erregistratu" action="#{registerBean.register}" styleClass="btn" />
+            <h:messages id="mezuak" style="color:red" />
+        </h:form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Query Rides</title>
+
+	<!-- Estilos y scripts de PrimeFaces -->
+	<h:outputStylesheet library="primefaces" name="components.css" />
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<h:outputScript library="primefaces" name="core.js" target="head" />
+	<h:outputScript library="primefaces" name="components.js" target="head" />
+
+	<style>
+body {
+	font-family: Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0;
+	padding: 20px;
+	background-color: #f0f0f0;
+}
+
+h1 {
+	margin-bottom: 20px;
+	font-size: 24px;
+	color: #333;
+}
+
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.form-element {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.date-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.input-field, .form-element select, .form-element input {
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+.btn {
+	padding: 15px 40px;
+	font-size: 18px;
+	color: #fff;
+	background-color: #007bff;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	transition: background-color 0.3s ease;
+	margin-top: 10px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.btn:hover {
+	background-color: #0056b3;
+}
+
+.btn:active {
+	background-color: #004085;
+}
+
+.dataTable {
+	margin: 0 auto;
+	width: 100%;
+	max-width: 800px;
+	margin-top: 20px;
+}
+
+.dataTable td, .dataTable th {
+	text-align: center;
+}
+
+h3 {
+	text-align: center;
+	color: #333;
+}
+</style>
+</h:head>
+
+<h:body>
+	<h1>Query Rides</h1>
+	<h:form id="queryForm">
+		<f:event type="preRenderView"
+			listener="#{queryRidesBean.updateDepartCities}" />
+		<div class="filters">
+			<div class="form-element">
+				<p:outputLabel for="departCity" value="Irteera Hiria" />
+				<p:selectOneMenu id="departCity"
+					value="#{queryRidesBean.departCity}" styleClass="input-field"
+					filter="true" filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Aukeratu" itemValue="" />
+					<f:selectItems value="#{queryRidesBean.departCities}" />
+					<p:ajax event="change"
+						listener="#{queryRidesBean.onDepartCityChange}"
+						update="arrivalCity" />
+				</p:selectOneMenu>
+			</div>
+
+			<div class="form-element">
+				<p:outputLabel for="arrivalCity" value="Helmugako Hiria" />
+				<p:selectOneMenu id="arrivalCity"
+					value="#{queryRidesBean.arrivalCity}" styleClass="input-field"
+					filter="true" filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Aukeratu" itemValue="" />
+					<f:selectItems value="#{queryRidesBean.arrivalCities}" />
+				</p:selectOneMenu>
+			</div>
+
+			<div class="form-element">
+				<p:outputLabel for="rideDate" value="Ride Date" />
+				<div class="date-container">
+					<p:calendar id="rideDate" value="#{queryRidesBean.rideDate}"
+						pattern="dd/MM/yyyy" placeholder="dd/mm/yyyy" showOn="button"
+						navigator="true" mode="popup" styleClass="input-field">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:calendar>
+				</div>
+			</div>
+		</div>
+
+		<p:commandButton value="Bidaiak bilatu"
+			action="#{queryRidesBean.updateRidesTable}" styleClass="btn"
+			update="ridesTable :mezuak" />
+
+		<h3>Bidaiak:</h3>
+		<p:dataTable id="ridesTable" value="#{queryRidesBean.rides}"
+			var="ride" selectionMode="single"
+			selection="#{queryRidesBean.selectedRide}"
+			rowKey="#{ride.rideNumber}" styleClass="dataTable" paginator="true"
+			rows="10">
+			<p:column headerText="Gidaria">
+                #{ride.driver.username}
+            </p:column>
+			<p:column headerText="Eserlekuak">
+                #{ride.nPlaces}
+            </p:column>
+			<p:column headerText="Prezioa">
+                #{ride.price}
+            </p:column>
+		</p:dataTable>
+	</h:form>
+
+	<h:messages id="mezuak" style="color: red;" />
+</h:body>
+</html>

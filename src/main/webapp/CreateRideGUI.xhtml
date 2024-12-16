@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+<h:head>
+    <title>Create Ride</title>
+    
+    <h:outputStylesheet library="primefaces" name="components.css" />
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+    <h:outputScript library="primefaces" name="core.js" target="head"/>
+    <h:outputScript library="primefaces" name="components.js" target="head"/>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn:active {
+            background-color: #004085;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h1>Create Ride</h1>
+    <div class="form-container">
+        <h:form>
+            <h:outputLabel for="departCity" value="Irteera Hiria" />
+            <h:inputText id="departCity" value="#{createRideBean.departCity}"
+                required="false" label="Irteera Hiria" styleClass="input-field" />
+
+            <h:outputLabel for="arrivalCity" value="Helmugako Hiria" />
+            <h:inputText id="arrivalCity" value="#{createRideBean.arrivalCity}"
+                required="false" label="Helmugako Hiria" styleClass="input-field" />
+
+            <h:outputLabel for="seats" value="Plaza Kopurua" />
+            <h:inputText id="seats" value="#{createRideBean.seats}" required="false" label="Plaza Kopurua" styleClass="input-field" />
+
+            <h:outputLabel for="price" value="Prezioa" />
+            <h:inputText id="price" value="#{createRideBean.price}"
+                required="false" label="Prezioa" styleClass="input-field" />
+
+            <h:outputLabel for="data" value="Ride date " />
+            <br />
+            <p:calendar id="data" 
+                       value="#{createRideBean.data}" 
+                       pattern="dd/MM/yyyy"
+                       placeholder="dd/mm/yyyy"
+                       showOn="button"
+                       navigator="true" 
+                       mode="popup">
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+            </p:calendar>
+
+            <h:commandButton value="Create Ride"
+                action="#{createRideBean.createRide}" styleClass="btn" />
+            <h:commandButton value="Close" action="close"
+                styleClass="btn" />
+            <h:messages id="mezuak" style="color: black" />
+        </h:form>
+    </div>
+</h:body>
+</html>
